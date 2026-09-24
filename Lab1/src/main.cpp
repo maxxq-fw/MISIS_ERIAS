@@ -1,12 +1,11 @@
 #include <iostream>
-
 #include "solution.hpp"
 
 int main()
 {
     Solution solution;
 
-    solution.matrixInit();
+    solution.matrixInit("data/matrix.csv");
 
     solution.calculateClosestProds();
     solution.calculateClosestUsers();

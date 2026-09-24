@@ -2,6 +2,8 @@
 
 #include <cmath>
 #include <limits>
+#include <fstream>
+#include <sstream>
 #include <stdexcept>
 
 
@@ -9,18 +11,32 @@ Solution::Solution() : _closestProds{-1, -1}, _closestUsers{-1, -1} {
 
 }
 
+void Solution::matrixInit(const std::string& filePath)
+{
+    std::ifstream file(filePath);
 
-void Solution::matrixInit() {
-    _matrix = {
-        {5, 4, 5, 3, 5},  
-        {5, 5, 5, 3, 5},  
-        {5, 4, 4, 2, 5},  
-        {5, 3, 5, 0, 3}, 
-        {5, 0, 5, 0, 0}, 
-        {4, 5, 5, 3, 1}   
-    };
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open file: " + filePath);
+    }
+
+    _matrix.clear();
+    std::string line;
+
+    while (std::getline(file, line)) {
+        std::stringstream lineStream(line);
+        std::string value;
+
+        std::vector<double> row;
+
+        while (std::getline(lineStream, value, ',')) {
+            row.push_back(std::stod(value));
+        }
+
+        if (!row.empty()) {
+            _matrix.push_back(row);
+        }
+    }
 }
-
 
 std::vector<double> Solution::getMatrixColumn(int column) const {
     std::vector<double> result;
@@ -32,21 +48,17 @@ std::vector<double> Solution::getMatrixColumn(int column) const {
     return result;
 }
 
-
 std::vector<double> Solution::getMatrixRow(int row) const {
     return _matrix.at(row);
 }
-
 
 void Solution::setClosestProds(int firstRow, int secondRow) {
     _closestProds = {firstRow, secondRow};
 }
 
-
 void Solution::setClosestUsers(int firstColumn, int secondColumn) {
     _closestUsers = {firstColumn, secondColumn};
 }
-
 
 double Solution::cosineSimilarity(const std::vector<double>& first, const std::vector<double>& second) const {
     if (first.size() != second.size()) {
@@ -74,7 +86,6 @@ double Solution::cosineSimilarity(const std::vector<double>& first, const std::v
     return dotProduct / (firstLength * secondLength);
 }
 
-
 void Solution::calculateClosestProds()
 {
     if (_matrix.size() < 2) {
@@ -96,7 +107,6 @@ void Solution::calculateClosestProds()
         }
     }
 }
-
 
 void Solution::calculateClosestUsers()
 {
@@ -126,7 +136,6 @@ void Solution::calculateClosestUsers()
 std::pair<int, int> Solution::getClosestProds() const {
     return _closestProds;
 }
-
 
 std::pair<int, int> Solution::getClosestUsers() const {
     return _closestUsers;

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <string>
 
 class Solution {
 private:
@@ -17,7 +18,7 @@ private:
     
 public:
     Solution();
-    void matrixInit();
+    void matrixInit(const std::string& filePath);
     void calculateClosestProds();
     void calculateClosestUsers();
     std::pair<int, int> getClosestProds() const;
