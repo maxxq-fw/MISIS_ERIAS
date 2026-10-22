@@ -52,4 +52,4 @@ g++ -std=c++17 src/main.cpp -Iinclude -o build/app.exe
 
 ### Сокращение размерности матрицы предпочтений
 
-![REDUCING](images/.png)
+![REDUCING](images/reducing.png)
